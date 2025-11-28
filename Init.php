@@ -24,6 +24,7 @@ use FacturaScripts\Core\Lib\AjaxForms\SalesLineHTML;
 use FacturaScripts\Core\Lib\Calculator;
 use FacturaScripts\Core\Model\Base\TransformerDocument;
 use FacturaScripts\Core\Template\InitClass;
+use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\Cliente;
 use FacturaScripts\Plugins\Comisiones\Model\LiquidacionComision;
 
@@ -56,5 +57,7 @@ final class Init extends InitClass
     {
         new Cliente();
         new LiquidacionComision();
+        Tools::settings('default', 'comissionposition', 'modal');
+        Tools::settingsSave();
     }
 }

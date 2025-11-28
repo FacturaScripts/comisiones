@@ -19,6 +19,7 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Mod;
 
+use Exception;
 use FacturaScripts\Core\Contract\CalculatorModInterface;
 use FacturaScripts\Core\Model\Base\BusinessDocument;
 use FacturaScripts\Core\Model\Base\BusinessDocumentLine;
@@ -176,13 +177,13 @@ class CalculatorMod implements CalculatorModInterface
 
     protected function isValidCommissionForDoc(Comision $commission, string $codagente, string $codcliente): bool
     {
-        // comprobamos el agente
-        if (!empty($commission->codagente) && $commission->codagente != $codagente) {
+        // comprobamos el agente si la comision tiene uno asignado
+        if (false === empty($commission->codagente) && $commission->codagente != $codagente) {
             return false;
         }
 
-        // comprobamos el cliente
-        if (!empty($commission->codcliente) && $commission->codcliente != $codcliente) {
+        // comprobamos el cliente si la comision tiene uno asignado
+        if (false === empty($commission->codcliente) && $commission->codcliente != $codcliente) {
             return false;
         }
 
@@ -204,6 +205,9 @@ class CalculatorMod implements CalculatorModInterface
         return true;
     }
 
+    /**
+     * @throws Exception
+     */
     protected function loadCommissions(int $idempresa, ?string $codagente, string $codcliente): void
     {
         $this->commissions = [];
@@ -211,7 +215,13 @@ class CalculatorMod implements CalculatorModInterface
             return;
         }
 
-        $where = [Where::eq('idempresa', $idempresa)];
+        $where = [
+            Where::column('idempresa', $idempresa),
+            Where::sub([
+                Where::column('codagente', $codagente),
+                Where::column('codagente', null, 'IS', 'OR'),
+            ]),
+        ];
         foreach (Comision::all($where, ['prioridad' => 'DESC']) as $comm) {
             if ($this->isValidCommissionForDoc($comm, $codagente, $codcliente)) {
                 $this->commissions[] = $comm;
@@ -227,14 +237,18 @@ class CalculatorMod implements CalculatorModInterface
         }
 
         $where = [
-            Where::eq('codagente', $codagente),
             Where::sub([
-                Where::eq('idempresa', $idempresa),
-                Where::orIsNull('idempresa')
-            ])
+                Where::column('codagente', $codagente),
+                Where::column('codagente', null, 'IS', 'OR'),
+            ]),
+            Where::sub([
+                Where::column('idempresa', $idempresa),
+                Where::column('idempresa', null, 'IS', 'OR'),
+            ]),
         ];
         $order = [
             'COALESCE(idempresa, 9999999)' => 'ASC',
+            'COALESCE(codagente, \'zzzzzz\')' => 'ASC',
             'dto_desde' => 'ASC'
         ];
         foreach (ComisionPenalizacion::all($where, $order) as $penalty) {
