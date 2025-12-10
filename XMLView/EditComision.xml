@@ -56,7 +56,7 @@
                 </widget>
             </column>
             <column name="product" description="optional" order="130">
-                <widget type="variante" fieldname="idproducto" onclick="EditProducto"/>
+                <widget type="variante" fieldname="idproducto" onclick="EditProducto" match="idproducto"/>
             </column>
         </group>
     </columns>
