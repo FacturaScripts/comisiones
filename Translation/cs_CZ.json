@@ -11,8 +11,8 @@
     "penalty-help-title": "Penalización por hacer descuentos",
     "penalty-penalty-info": "Porcentaje que se resta al porcentaje de comisión sobre la venta. (Introducir un valor positivo)",
     "show-into-footer": "Mostrar en pie de documento",
-    "show-into-modal": "Mostrar en ventana auxiliar",
-    "total-position": "Posición del Total",
+    "show-into-modal": "Zobrazit v modálním okně",
+    "total-position": "Pozice celku",
     "until-dto": "Hasta descuento",
     "until-penalty-info": "Fin del rango del descuento al que se aplica la penalización. '100' indica máximo del rango"
 }

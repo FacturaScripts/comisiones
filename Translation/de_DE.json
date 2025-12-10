@@ -12,7 +12,7 @@
     "penalty-penalty-info": "Prozentsatz, der vom Verkaufsprovisionssatz abgezogen wird. (Positiven Wert eingeben)",
     "show-into-footer": "Mostrar en pie de documento",
     "show-into-modal": "Mostrar en ventana auxiliar",
-    "total-position": "Posición del Total",
+    "total-position": "Position der Gesamtsumme",
     "until-dto": "Bis Rabatt",
     "until-penalty-info": "Ende des Rabattranges, auf den die Strafe angewendet wird. '100' zeigt das Maximum des Bereichs an"
 }

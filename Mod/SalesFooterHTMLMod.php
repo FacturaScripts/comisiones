@@ -69,17 +69,16 @@ class SalesFooterHTMLMod implements SalesModInterface
     private function totalcomision(SalesDocument $model): string
     {
         if (false === $model->hasColumn('totalcomision')) {
-            return 'rtgyhj';
+            return '';
         }
-
-        // obtenemos la liquidación
-        $liquidacion = new LiquidacionComision();
-        $liquidacion->load($model->idliquidacion);
 
         $html = '<div class="col-sm-6 col-md-4 col-lg">'
             . '<div class="mb-3">';
 
-        if ($liquidacion->exists()) {
+        // obtenemos la liquidación
+        $liquidacion = new LiquidacionComision();
+
+        if ($liquidacion->load($model->idliquidacion)) {
             $html .= '<a href="' . $liquidacion->url() . '" target="_blank">'
                 . '<i class="fas fa-check-double fa-fw text-success"></i>'
                 . Tools::trans('settlement') . '</a>';

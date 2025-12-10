@@ -11,7 +11,7 @@
     "penalty-help-title": "Penalització per fer descomptes",
     "penalty-penalty-info": "Porcentatge que es resta al percentatge de comissió sobre la venda. (Introduïr un valor positiu)",
     "show-into-footer": "Mostrar en pie de documento",
-    "show-into-modal": "Mostrar en ventana auxiliar",
+    "show-into-modal": "Mostrar en finestra auxiliar",
     "total-position": "Posición del Total",
     "until-dto": "Fins descompte",
     "until-penalty-info": "Fi de l'abast del descompte al qual s'aplica la penalització. '100' indica el màxim de l'abast"
