@@ -22,6 +22,7 @@ namespace FacturaScripts\Plugins\Comisiones\Mod;
 use FacturaScripts\Core\Contract\SalesModInterface;
 use FacturaScripts\Core\Model\Base\SalesDocument;
 use FacturaScripts\Core\Tools;
+use FacturaScripts\Dinamic\Model\LiquidacionComision;
 
 class SalesFooterHTMLMod implements SalesModInterface
 {
@@ -68,16 +69,30 @@ class SalesFooterHTMLMod implements SalesModInterface
     private function totalcomision(SalesDocument $model): string
     {
         if (false === $model->hasColumn('totalcomision')) {
-            return '';
+            return 'rtgyhj';
         }
 
-        return '<div class="col-sm-6 col-md-4 col-lg">'
-            . '<div class="mb-3">'
-            . Tools::trans('commission')
-            . '<input type="text" name="totalcomision" class="form-control" disabled'
-                . ' value="' . Tools::money($model->totalcomision, $model->coddivisa, 2) . '"'
+        // obtenemos la liquidación
+        $liquidacion = new LiquidacionComision();
+        $liquidacion->load($model->idliquidacion);
+
+        $html = '<div class="col-sm-6 col-md-4 col-lg">'
+            . '<div class="mb-3">';
+
+        if ($liquidacion->exists()) {
+            $html .= '<a href="' . $liquidacion->url() . '" target="_blank">'
+                . '<i class="fas fa-check-double fa-fw text-success"></i>'
+                . Tools::trans('settlement') . '</a>';
+        } else {
+            $html .= Tools::trans('commission');
+        }
+
+        $html .= '<input type="text" name="totalcomision" class="form-control" disabled'
+            . ' value="' . Tools::money($model->totalcomision, $model->coddivisa, 2) . '"'
             . '/>'
             . '</div>'
-        . '</div>';
+            . '</div>';
+
+        return $html;
     }
 }
