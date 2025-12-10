@@ -21,7 +21,9 @@ namespace FacturaScripts\Plugins\Comisiones\Extension\Controller;
 
 use Closure;
 use FacturaScripts\Core\DataSrc\Empresas;
+use FacturaScripts\Core\Tools;
 use FacturaScripts\Core\Where;
+use FacturaScripts\Dinamic\Model\RoleAccess;
 
 /**
  * Description of EditAgente
@@ -74,9 +76,39 @@ class EditAgente
         };
     }
 
+    protected function createSupplierAction(): Closure
+    {
+        return function () {
+            if (false === $this->user->can('EditProveedor', 'update')) {
+                Tools::log()->warning('not-allowed-update');
+                return;
+            }
+
+            $mvn = $this->getMainViewName();
+            $supplier = $this->views[$mvn]->model->getContact()->getSupplier();
+            if ($supplier->exists()) {
+                Tools::log()->notice('record-updated-correctly');
+                $this->redirect($supplier->url() . '&action=save-ok');
+                return;
+            }
+
+            Tools::log()->error('record-save-error');
+        };
+    }
+
+    protected function execAfterAction(): Closure
+    {
+        return function ($action) {
+            if ($action === 'convert-into-supplier') {
+                $this->createSupplierAction();
+            }
+        };
+    }
+
     protected function loadData(): Closure
     {
         return function ($viewName, $view) {
+            $mvn = $this->getMainViewName();
             switch ($viewName) {
                 case 'ListComision':
                 case 'ListLiquidacionComision':
@@ -90,6 +122,19 @@ class EditAgente
                     $where = [Where::column('codagente', $codagente)];
                     $order = ['COALESCE(idempresa, 9999999)' => 'ASC', 'dto_desde' => 'ASC'];
                     $view->loadData('', $where, $order);
+                    break;
+
+                case $mvn:
+                    if (!empty($view->model->id())
+                        && $this->user->can('EditProveedor', 'update')
+                        && empty($view->model->getContact()->codproveedor)) {
+                        $this->addButton($viewName, [
+                            'action' => 'convert-into-supplier',
+                            'color' => 'success',
+                            'icon' => 'fa-solid fa-user-cog',
+                            'label' => 'convert-into-supplier'
+                        ]);
+                    }
                     break;
             }
         };
