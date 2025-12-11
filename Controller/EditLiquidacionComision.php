@@ -71,31 +71,22 @@ class EditLiquidacionComision extends EditController
             return true;
         }
 
-        $this->dataBase->beginTransaction();
-
-        try {
-            // recalculate all business documents and save new totals
-            foreach ($docs as $invoice) {
-                $lines = $invoice->getLines();
-                if (false === Calculator::calculate($invoice, $lines, true)) {
-                    throw new Exception(
-                        Tools::lang()->trans('error-calculate-commission', ['%code%' => $invoice->codigo])
-                    );
-                }
+        // recalculate all business documents and save new totals
+        $count = 0;
+        foreach ($docs as $invoice) {
+            $lines = $invoice->getLines();
+            if (false === Calculator::calculate($invoice, $lines, true)) {
+                Tools::log()->warning('error-calculate-commission', ['%code%' => $invoice->codigo]);
+                continue;
             }
-
-            // update total to settlement commission
-            $this->calculateTotalCommission();
-
-            // confirm changes
-            $this->dataBase->commit();
-
-            Tools::log()->notice('record-updated-correctly');
-        } catch (Exception $exc) {
-            $this->dataBase->rollback();
-            Tools::log()->error($exc->getMessage());
+            ++$count;
         }
 
+        // update total to settlement commission
+        $this->calculateTotalCommission();
+        if ($count > 0) {
+            Tools::log()->notice('invoices-updated-correctly', ['%count%' => $count]);
+        }
         return true;
     }
 
@@ -209,16 +200,12 @@ class EditLiquidacionComision extends EditController
      */
     protected function getInvoicesFromDataForm(array $data): array
     {
-        if (false === isset($data['code'])) {
-            return [];
-        }
-
-        $selected = implode(',', $data['code']);
+        $selected = $data['codes'] ?? [];
         if (empty($selected)) {
             return [];
         }
 
-        $where = [Where::column('idfactura', $selected, 'IN')];
+        $where = [Where::column('idfactura', implode(',', $selected), 'IN')];
         return FacturaCliente::all($where, ['idfactura' => 'ASC']);
     }
 
