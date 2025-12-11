@@ -4,6 +4,7 @@
     "error-calculate-commission": "Erro ó calcular a comisión do documento %code%",
     "from-dto": "Para descontos desde",
     "from-penalty-info": "Inicio do rango do desconto ao que se aplica a penalización",
+    "invoices-updated-correctly": "%count% facturas actualizadas correctamente",
     "penalize": "Penalizar",
     "penalties": "Penalizacións",
     "penalty": "Penalización",

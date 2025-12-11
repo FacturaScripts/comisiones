@@ -4,6 +4,7 @@
     "error-calculate-commission": "Błąd podczas obliczania prowizji dokumentu %code%",
     "from-dto": "Na rabaty od",
     "from-penalty-info": "Początek zakresu zniżki, do której stosuje się karę",
+    "invoices-updated-correctly": "%count% facturas actualizadas correctamente",
     "penalize": "Ukarać",
     "penalties": "Kary",
     "penalty": "Kara",

@@ -4,6 +4,7 @@
     "error-calculate-commission": "Fehler beim Berechnen der Provision des Dokuments %code%",
     "from-dto": "Für Rabatte von",
     "from-penalty-info": "Start des Bereichs des Rabatts, auf den die Strafe angewendet wird",
+    "invoices-updated-correctly": "%count% facturas actualizadas correctamente",
     "penalize": "Bestrafen",
     "penalties": "Strafen",
     "penalty": "Strafe",

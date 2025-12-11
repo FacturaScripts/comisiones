@@ -4,6 +4,7 @@
     "error-calculate-commission": "Error calculating the commission for document %code%",
     "from-dto": "For discounts from",
     "from-penalty-info": "Beginning of the range of the discount to which the penalty is applied",
+    "invoices-updated-correctly": "%count% invoices updated correctly",
     "penalize": "Penalize",
     "penalties": "Penalties",
     "penalty": "Penalty",
