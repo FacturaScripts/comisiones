@@ -32,6 +32,11 @@ class SalesLineHTMLMod implements SalesLineModInterface
 
     public function applyToLine(array $formData, SalesDocumentLine &$line, string $id): void
     {
+        if ($line->hasColumn('porcomision')) {
+            if (isset($formData['porcomision_' . $id])) {
+                $line->porcomision = (float)$formData['porcomision_' . $id];
+            }
+        }
     }
 
     public function assets(): void
@@ -50,7 +55,7 @@ class SalesLineHTMLMod implements SalesLineModInterface
         foreach ($lines as $line) {
             $num++;
             $idlinea = $line->idlinea ?? 'n' . $num;
-            $map['porcomision_' . $idlinea] = $line->porcomision;
+            $map['porcomision_' . $idlinea] = $line->porcomision ?? 0.00;
         }
         return $map;
     }
@@ -84,12 +89,35 @@ class SalesLineHTMLMod implements SalesLineModInterface
         return null;
     }
 
+    /**
+     * Render the input for percentage commission.
+     * User only can edit if not liquidated and edit selected.
+     *
+     * @param $idlinea
+     * @param $line
+     * @param $model
+     * @return string
+     */
     private function porcomision($idlinea, $line, $model): string
     {
+        if (false === $line->hasColumn('porcomision')) {
+            return '';
+        }
+
+        $enabled = $model->hasColumn('editcomision') && $model->editcomision;
+        $liquidated = $model->hasColumn('idliquidacion') && $model->editliquidacion;
+        $disabled = $liquidated || (false === $enabled)
+            ? ' disabled'
+            : '';
+
         return '<div class="col-6">'
             . '<div class="mb-2">' . Tools::trans('percentage-commission')
-            . '<input type="number" name="porcomision_' . $idlinea . '" value="' . $line->porcomision . '" class="form-control" disabled />'
+            . '<input type="number" class="form-control"'
+                . ' name="porcomision_' . $idlinea . '"'
+                . ' value="' . $line->porcomision . '"'
+                . $disabled
+            . '/>'
             . '</div>'
-            . '</div>';
+        . '</div>';
     }
 }

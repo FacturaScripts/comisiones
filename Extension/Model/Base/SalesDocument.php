@@ -22,18 +22,21 @@ namespace FacturaScripts\Plugins\Comisiones\Extension\Model\Base;
 use Closure;
 use FacturaScripts\Core\Tools;
 
+/**
+ * Extension for SalesDocuments. Add commissions management.
+ *
+ * @property string $codagente
+ * @property false $editcomision
+ * @property int $idliquidacion
+ * @property float $totalcomision
+ * @method hasColumn(string $string): bool
+ */
 class SalesDocument
 {
-    /**
-     * % commission of the agent.
-     *
-     * @var float|int
-     */
-    public $totalcomision;
-
     public function clear(): Closure
     {
         return function () {
+            $this->editcomision = false;
             $this->totalcomision = 0.0;
         };
     }

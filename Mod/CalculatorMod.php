@@ -78,13 +78,8 @@ class CalculatorMod implements CalculatorModInterface
 
     public function calculate(BusinessDocument &$doc, array &$lines): bool
     {
-        if (false === $doc->hasColumn('totalcomision')) {
-            // si no existe el campo totalcomision, no se calcula nada
-            return true;
-        }
-
-        if ($this->isInvoiced($doc)) {
-            // si ya hay una liquidación facturada, no se calcula la comisión
+        // si no hay totalcomision o ya hay una liquidación facturada, no se calcula la comisión
+        if (false === $doc->hasColumn('totalcomision') || $this->isInvoiced($doc)) {
             return true;
         }
 
@@ -102,12 +97,13 @@ class CalculatorMod implements CalculatorModInterface
 
     public function calculateLine(BusinessDocument $doc, BusinessDocumentLine &$line): bool
     {
-        if (false === $line->hasColumn('porcomision')) {
-            // si no hay porcomision, no hay comisiones
+        // si no hay porcomision o ya hay una liquidación facturada, no se calcula la comisión
+        if (false === $line->hasColumn('porcomision') || $this->isInvoiced($doc)) {
             return true;
         }
-        if ($this->isInvoiced($doc)) {
-            // si ya hay una liquidación facturada, no se calcula la comisión
+
+        // si se ha seleccionado editar la comisión no la procesamos
+        if ($doc->hasColumn('editcomision') && $doc->editcomision) {
             return true;
         }
 
@@ -119,16 +115,18 @@ class CalculatorMod implements CalculatorModInterface
 
     public function clear(BusinessDocument &$doc, array &$lines): bool
     {
-        if (false === $doc->hasColumn('totalcomision')) {
-            // si no hay totalcomision, no hay nada que limpiar
-            return true;
-        }
-        if ($this->isInvoiced($doc)) {
-            // si ya hay una liquidación facturada, no se calcula la comisión
+        // si no hay totalcomision o ya hay una liquidación facturada, no se calcula la comisión
+        if (false === $doc->hasColumn('totalcomision') || $this->isInvoiced($doc)) {
             return true;
         }
 
         $doc->totalcomision = 0.0;
+
+        // si se ha seleccionado editar la comisión no la procesamos
+        if ($doc->hasColumn('editcomision') || $doc->editcomision) {
+            return true;
+        }
+
         foreach ($lines as $line) {
             $line->porcomision = 0.0;
         }

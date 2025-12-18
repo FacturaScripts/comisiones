@@ -15,5 +15,6 @@
     "show-into-modal": "Mostrar en ventana auxiliar",
     "total-position": "Posición del Total",
     "until-dto": "Hasta descuento",
-    "until-penalty-info": "Fin del rango del descuento al que se aplica la penalización. '100' indica máximo del rango"
+    "until-penalty-info": "Fin del rango del descuento al que se aplica la penalización. '100' indica máximo del rango",
+    "edit-commission": "Editar Comisión"
 }
