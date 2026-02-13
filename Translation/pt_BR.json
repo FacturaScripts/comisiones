@@ -4,7 +4,7 @@
     "error-calculate-commission": "Erro ao calcular a comissão do documento %code%",
     "from-dto": "De para descontos",
     "from-penalty-info": "Início da faixa de desconto a que se aplica a penalidade",
-    "invoices-updated-correctly": "%count% facturas actualizadas correctamente",
+    "invoices-updated-correctly": "%count% faturas atualizadas corretamente",
     "penalize": "Penalizar",
     "penalties": "Penalidades",
     "penalty": "Penalidade",
@@ -12,8 +12,8 @@
     "penalty-help-title": "Penalização por fazer descontos",
     "penalty-penalty-info": "Percentagem a subtrair à comissão sobre a venda. (Introduzir um valor positivo)",
     "show-into-footer": "Mostrar no rodapé do documento",
-    "show-into-modal": "Mostrar en ventana auxiliar",
-    "total-position": "Posición del Total",
+    "show-into-modal": "Mostrar na janela auxiliar",
+    "total-position": "Posição do total",
     "until-dto": "Até desconto",
     "until-penalty-info": "Fim do intervalo do desconto para aplicar a penalidade. '100' indica o máximo do intervalo"
 }

@@ -4,7 +4,7 @@
     "error-calculate-commission": "Błąd podczas obliczania prowizji dokumentu %code%",
     "from-dto": "Na rabaty od",
     "from-penalty-info": "Początek zakresu zniżki, do której stosuje się karę",
-    "invoices-updated-correctly": "%count% facturas actualizadas correctamente",
+    "invoices-updated-correctly": "%count% faktury zostały poprawnie zaktualizowane",
     "penalize": "Ukarać",
     "penalties": "Kary",
     "penalty": "Kara",
@@ -12,8 +12,8 @@
     "penalty-help-title": "Kara za udzielanie rabatów",
     "penalty-penalty-info": "Procent, który jest odejmowany od procentu prowizji od sprzedaży. (Wprowadź dodatnią wartość)",
     "show-into-footer": "Pokaż w stopce dokumentu",
-    "show-into-modal": "Mostrar en ventana auxiliar",
-    "total-position": "Posición del Total",
+    "show-into-modal": "Pokaż w oknie modalnym",
+    "total-position": "Pozycja sumy",
     "until-dto": "Do zniżki",
     "until-penalty-info": "Koniec zakresu zniżki, do którego stosuje się karę. '100' oznacza najwyższy zakres"
 }
