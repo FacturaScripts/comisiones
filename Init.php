@@ -32,7 +32,7 @@ use FacturaScripts\Plugins\Comisiones\Model\LiquidacionComision;
 /**
  * Description of Init
  *
- * @author Daniel Fernández Giménez <hola@danielfg.es>
+ * @author Daniel Fernández Giménez <contacto@danielfg.es>
  */
 final class Init extends InitClass
 {

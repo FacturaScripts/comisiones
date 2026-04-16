@@ -33,7 +33,7 @@ use FacturaScripts\Dinamic\Model\LiquidacionComision;
  * Description of ListAgente
  *
  * @author Carlos Garcia Gomez           <carlos@facturascripts.com>
- * @author Daniel Fernández Giménez      <hola@danielfg.es>
+ * @author Daniel Fernández Giménez      <contacto@danielfg.es>
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  */
 class ListAgente
