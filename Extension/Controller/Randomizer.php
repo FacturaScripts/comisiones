@@ -29,7 +29,7 @@ class Randomizer
     protected function loadButtons(): Closure
     {
         return function () {
-            $this->addButton('plugins', 'comisiones', 'generated-commissions', 'commissions', 'fa-solid fa-percent', 'Random\\Comisiones', 'Comision');
+            $this->addButton('sales', 'comisiones', 'generated-commissions', 'commissions', 'fa-solid fa-percentage', 'Random\\Comisiones', 'Comision');
         };
     }
 }
