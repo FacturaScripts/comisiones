@@ -49,6 +49,10 @@ final class Init extends InitClass
         SalesLineHTML::addMod(new Mod\SalesLineHTMLMod());
 
         TransformerDocument::addUnlockedField('totalcomision');
+
+        if (class_exists('FacturaScripts\\Dinamic\\Controller\\Randomizer')) {
+            $this->loadExtension(new Extension\Controller\Randomizer());
+        }
     }
 
     public function uninstall(): void
