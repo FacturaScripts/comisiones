@@ -22,7 +22,7 @@ namespace FacturaScripts\Plugins\Comisiones\Model\Join;
 use Exception;
 use FacturaScripts\Core\KernelException;
 use FacturaScripts\Core\Where;
-use FacturaScripts\Core\Model\Base\JoinModel;
+use FacturaScripts\Core\Template\JoinModel;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\FacturaCliente;
 
