@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of Comisiones plugin for FacturaScripts
- * Copyright (C) 2022-2025 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Copyright (C) 2022-2026 Carlos Garcia Gomez <carlos@facturascripts.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -20,11 +20,11 @@
 namespace FacturaScripts\Plugins\Comisiones\Mod;
 
 use Exception;
-use FacturaScripts\Core\Contract\CalculatorModInterface;
 use FacturaScripts\Core\Model\Base\BusinessDocument;
 use FacturaScripts\Core\Model\Base\BusinessDocumentLine;
 use FacturaScripts\Core\Model\Base\SalesDocument;
 use FacturaScripts\Core\Model\Base\SalesDocumentLine;
+use FacturaScripts\Core\Template\CalculatorModClass;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Core\Where;
 use FacturaScripts\Dinamic\Model\Comision;
@@ -38,7 +38,7 @@ use FacturaScripts\Dinamic\Model\Producto;
  * @author Carlos Garcia Gomez      <carlos@facturascripts.com>
  * @author Daniel Fernández Giménez <contacto@danielfg.es>
  */
-class CalculatorMod implements CalculatorModInterface
+class CalculatorMod extends CalculatorModClass
 {
     /**
      * Commission ratio.
@@ -61,7 +61,7 @@ class CalculatorMod implements CalculatorModInterface
      */
     protected $settlement;
 
-    public function apply(BusinessDocument &$doc, array &$lines): bool
+    public function apply(BusinessDocument $doc, array &$lines): string
     {
         if ($doc instanceof SalesDocument) {
             // cargamos comisiones y penalizaciones aplicables
@@ -73,14 +73,14 @@ class CalculatorMod implements CalculatorModInterface
                 $this->settlement->load($doc->idliquidacion);
             }
         }
-        return true;
+        return $this->done();
     }
 
-    public function calculate(BusinessDocument &$doc, array &$lines): bool
+    public function calculate(BusinessDocument $doc, array &$lines): string
     {
         // si no hay totalcomision o ya hay una liquidación facturada, no se calcula la comisión
         if (false === $doc->hasColumn('totalcomision') || $this->isInvoiced($doc)) {
-            return true;
+            return $this->done();
         }
 
         // calculamos el total de comisiones
@@ -92,50 +92,45 @@ class CalculatorMod implements CalculatorModInterface
         $decimals = Tools::settings('default', 'decimals', 2);
         $doc->totalcomision = round($totalCommission, $decimals);
 
-        return true;
+        return $this->done();
     }
 
-    public function calculateLine(BusinessDocument $doc, BusinessDocumentLine &$line): bool
+    public function calculateLine(BusinessDocument $doc, BusinessDocumentLine $line): string
     {
         // si no hay porcomision o ya hay una liquidación facturada, no se calcula la comisión
         if (false === $line->hasColumn('porcomision') || $this->isInvoiced($doc)) {
-            return true;
+            return $this->done();
         }
 
         // si se ha seleccionado editar la comisión no la procesamos
         if ($doc->hasColumn('editcomision') && $doc->editcomision) {
-            return true;
+            return $this->done();
         }
 
         // calculamos el porcentaje de comisión
         $line->porcomision = $line->suplido ? 0.0 : $this->getCommission($line);
 
-        return true;
+        return $this->done();
     }
 
-    public function clear(BusinessDocument &$doc, array &$lines): bool
+    public function clear(BusinessDocument $doc, array &$lines): string
     {
         // si no hay totalcomision o ya hay una liquidación facturada, no se calcula la comisión
         if (false === $doc->hasColumn('totalcomision') || $this->isInvoiced($doc)) {
-            return true;
+            return $this->done();
         }
 
         $doc->totalcomision = 0.0;
 
         // si se ha seleccionado editar la comisión no la procesamos
         if ($doc->hasColumn('editcomision') || $doc->editcomision) {
-            return true;
+            return $this->done();
         }
 
         foreach ($lines as $line) {
             $line->porcomision = 0.0;
         }
-        return true;
-    }
-
-    public function getSubtotals(array &$subtotals, BusinessDocument $doc, array $lines): bool
-    {
-        return true;
+        return $this->done();
     }
 
     protected function getCommission(SalesDocumentLine $line): float
@@ -214,10 +209,10 @@ class CalculatorMod implements CalculatorModInterface
         }
 
         $where = [
-            Where::column('idempresa', $idempresa),
+            Where::eq('idempresa', $idempresa),
             Where::sub([
-                Where::column('codagente', $codagente),
-                Where::column('codagente', null, 'IS', 'OR'),
+                Where::eq('codagente', $codagente),
+                Where::orIsNull('codagente'),
             ]),
         ];
         foreach (Comision::all($where, ['prioridad' => 'DESC']) as $comm) {
@@ -236,12 +231,12 @@ class CalculatorMod implements CalculatorModInterface
 
         $where = [
             Where::sub([
-                Where::column('codagente', $codagente),
-                Where::column('codagente', null, 'IS', 'OR'),
+                Where::eq('codagente', $codagente),
+                Where::orIsNull('codagente'),
             ]),
             Where::sub([
-                Where::column('idempresa', $idempresa),
-                Where::column('idempresa', null, 'IS', 'OR'),
+                Where::eq('idempresa', $idempresa),
+                Where::orIsNull('idempresa'),
             ]),
         ];
         $order = [
@@ -254,7 +249,7 @@ class CalculatorMod implements CalculatorModInterface
         }
     }
 
-    private function isInvoiced(BusinessDocument &$doc): bool
+    private function isInvoiced(BusinessDocument $doc): bool
     {
         return $doc->hasColumn('idliquidacion')
             && isset($this->settlement)

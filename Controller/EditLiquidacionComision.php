@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of Comisiones plugin for FacturaScripts
- * Copyright (C) 2022-2025 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Copyright (C) 2022-2026 Carlos Garcia Gomez <carlos@facturascripts.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -20,7 +20,6 @@
 namespace FacturaScripts\Plugins\Comisiones\Controller;
 
 use Exception;
-use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Lib\Calculator;
 use FacturaScripts\Core\Lib\ExtendedController\BaseView;
 use FacturaScripts\Core\Lib\ExtendedController\EditController;
@@ -205,7 +204,7 @@ class EditLiquidacionComision extends EditController
             return [];
         }
 
-        $where = [Where::column('idfactura', implode(',', $selected), 'IN')];
+        $where = [Where::in('idfactura', $selected)];
         return FacturaCliente::all($where, ['idfactura' => 'ASC']);
     }
 
@@ -214,44 +213,44 @@ class EditLiquidacionComision extends EditController
      *
      * @param array $data
      *
-     * @return DataBaseWhere[]
+     * @return Where[]
      */
     protected function getInvoicesWhere(array $data): array
     {
         // Basic data filter
         $where = [
-            new DataBaseWhere('facturascli.idempresa', $data['idempresa']),
-            new DataBaseWhere('facturascli.codserie', $data['codserie']),
-            new DataBaseWhere('facturascli.codagente', $data['codagente']),
+            Where::eq('facturascli.idempresa', $data['idempresa']),
+            Where::eq('facturascli.codserie', $data['codserie']),
+            Where::eq('facturascli.codagente', $data['codagente']),
         ];
 
         // Date filter
         if (false === empty($data['datefrom'])) {
-            $where[] = new DataBaseWhere('facturascli.fecha', $data['datefrom'], '>=');
+            $where[] = Where::gte('facturascli.fecha', $data['datefrom']);
         }
         if (false === empty($data['dateto'])) {
-            $where[] = new DataBaseWhere('facturascli.fecha', $data['dateto'], '<=');
+            $where[] = Where::lte('facturascli.fecha', $data['dateto']);
         }
 
         // Status payment filter
         if ($data['status'] === self::INSERT_STATUS_CHARGED) {
-            $where[] = new DataBaseWhere('facturascli.pagada', true);
+            $where[] = Where::eq('facturascli.pagada', true);
         }
 
         // Payment source filter
         switch ($data['domiciled']) {
             case self::INSERT_DOMICILED_DOMICILED:
-                $where[] = new DataBaseWhere('formaspago.domiciliado', true);
+                $where[] = Where::eq('formaspago.domiciliado', true);
                 break;
 
             case self::INSERT_DOMICILED_WITHOUT:
-                $where[] = new DataBaseWhere('formaspago.domiciliado', false);
+                $where[] = Where::eq('formaspago.domiciliado', false);
                 break;
         }
 
         // Customer filter
         if (false === empty($data['codcliente'])) {
-            $where[] = new DataBaseWhere('facturascli.codcliente', $data['codcliente']);
+            $where[] = Where::eq('facturascli.codcliente', $data['codcliente']);
         }
 
         // Return completed filter
@@ -318,7 +317,7 @@ class EditLiquidacionComision extends EditController
 
         // Load view data
         $view->loadData('', [
-            new DataBaseWhere('facturascli.idliquidacion', $idsettled),
+            Where::eq('facturascli.idliquidacion', $idsettled),
         ]);
     }
 

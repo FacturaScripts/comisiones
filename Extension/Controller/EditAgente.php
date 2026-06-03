@@ -113,13 +113,13 @@ class EditAgente
                 case 'ListComision':
                 case 'ListLiquidacionComision':
                     $codagente = $this->getViewModelValue('EditAgente', 'codagente');
-                    $where = [Where::column('codagente', $codagente)];
+                    $where = [Where::eq('codagente', $codagente)];
                     $view->loadData('', $where);
                     break;
 
                 case 'EditComisionPenalizacion':
                     $codagente = $this->getViewModelValue('EditAgente', 'codagente');
-                    $where = [Where::column('codagente', $codagente)];
+                    $where = [Where::eq('codagente', $codagente)];
                     $order = ['COALESCE(idempresa, 9999999)' => 'ASC', 'dto_desde' => 'ASC'];
                     $view->loadData('', $where, $order);
                     break;
