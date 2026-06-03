@@ -27,7 +27,7 @@ use FacturaScripts\Core\Model\Base\TransformerDocument;
 use FacturaScripts\Core\Template\InitClass;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\Cliente;
-use FacturaScripts\Plugins\Comisiones\Model\LiquidacionComision;
+use FacturaScripts\Dinamic\Model\LiquidacionComision;
 
 /**
  * Description of Init

@@ -23,7 +23,6 @@ use Closure;
 use FacturaScripts\Core\DataSrc\Empresas;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Core\Where;
-use FacturaScripts\Dinamic\Model\RoleAccess;
 
 /**
  * Description of EditAgente
