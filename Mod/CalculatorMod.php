@@ -133,11 +133,6 @@ class CalculatorMod extends CalculatorModClass
         return $this->done();
     }
 
-    public function updateSubtotals(array &$subtotals, BusinessDocument $doc, array $lines): string
-    {
-        return $this->done();
-    }
-
     protected function getCommission(SalesDocumentLine $line): float
     {
         $product = $line->getProducto();
@@ -214,10 +209,10 @@ class CalculatorMod extends CalculatorModClass
         }
 
         $where = [
-            Where::column('idempresa', $idempresa),
+            Where::eq('idempresa', $idempresa),
             Where::sub([
-                Where::column('codagente', $codagente),
-                Where::column('codagente', null, 'IS', 'OR'),
+                Where::eq('codagente', $codagente),
+                Where::orIsNull('codagente'),
             ]),
         ];
         foreach (Comision::all($where, ['prioridad' => 'DESC']) as $comm) {
@@ -236,12 +231,12 @@ class CalculatorMod extends CalculatorModClass
 
         $where = [
             Where::sub([
-                Where::column('codagente', $codagente),
-                Where::column('codagente', null, 'IS', 'OR'),
+                Where::eq('codagente', $codagente),
+                Where::orIsNull('codagente'),
             ]),
             Where::sub([
-                Where::column('idempresa', $idempresa),
-                Where::column('idempresa', null, 'IS', 'OR'),
+                Where::eq('idempresa', $idempresa),
+                Where::orIsNull('idempresa'),
             ]),
         ];
         $order = [

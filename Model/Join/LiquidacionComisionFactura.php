@@ -58,7 +58,7 @@ class LiquidacionComisionFactura extends JoinModel
      */
     public function addInvoiceToSettle(int $settled, array $where): void
     {
-        $where[] = Where::column('facturascli.idliquidacion', null, 'IS');
+        $where[] = Where::isNull('facturascli.idliquidacion');
         $invoices = $this->all($where);
         if (empty($invoices)) {
             return;

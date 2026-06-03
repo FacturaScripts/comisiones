@@ -204,7 +204,7 @@ class EditLiquidacionComision extends EditController
             return [];
         }
 
-        $where = [Where::column('idfactura', implode(',', $selected), 'IN')];
+        $where = [Where::in('idfactura', $selected)];
         return FacturaCliente::all($where, ['idfactura' => 'ASC']);
     }
 
@@ -219,38 +219,38 @@ class EditLiquidacionComision extends EditController
     {
         // Basic data filter
         $where = [
-            Where::column('facturascli.idempresa', $data['idempresa']),
-            Where::column('facturascli.codserie', $data['codserie']),
-            Where::column('facturascli.codagente', $data['codagente']),
+            Where::eq('facturascli.idempresa', $data['idempresa']),
+            Where::eq('facturascli.codserie', $data['codserie']),
+            Where::eq('facturascli.codagente', $data['codagente']),
         ];
 
         // Date filter
         if (false === empty($data['datefrom'])) {
-            $where[] = Where::column('facturascli.fecha', $data['datefrom'], '>=');
+            $where[] = Where::gte('facturascli.fecha', $data['datefrom']);
         }
         if (false === empty($data['dateto'])) {
-            $where[] = Where::column('facturascli.fecha', $data['dateto'], '<=');
+            $where[] = Where::lte('facturascli.fecha', $data['dateto']);
         }
 
         // Status payment filter
         if ($data['status'] === self::INSERT_STATUS_CHARGED) {
-            $where[] = Where::column('facturascli.pagada', true);
+            $where[] = Where::eq('facturascli.pagada', true);
         }
 
         // Payment source filter
         switch ($data['domiciled']) {
             case self::INSERT_DOMICILED_DOMICILED:
-                $where[] = Where::column('formaspago.domiciliado', true);
+                $where[] = Where::eq('formaspago.domiciliado', true);
                 break;
 
             case self::INSERT_DOMICILED_WITHOUT:
-                $where[] = Where::column('formaspago.domiciliado', false);
+                $where[] = Where::eq('formaspago.domiciliado', false);
                 break;
         }
 
         // Customer filter
         if (false === empty($data['codcliente'])) {
-            $where[] = Where::column('facturascli.codcliente', $data['codcliente']);
+            $where[] = Where::eq('facturascli.codcliente', $data['codcliente']);
         }
 
         // Return completed filter
@@ -317,7 +317,7 @@ class EditLiquidacionComision extends EditController
 
         // Load view data
         $view->loadData('', [
-            Where::column('facturascli.idliquidacion', $idsettled),
+            Where::eq('facturascli.idliquidacion', $idsettled),
         ]);
     }
 

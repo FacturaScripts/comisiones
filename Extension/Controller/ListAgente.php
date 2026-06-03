@@ -120,18 +120,18 @@ class ListAgente
             $generated = 0;
             foreach (Agentes::all() as $agente) {
                 $where = [
-                    Where::column('idliquidacion', null, 'IS'),
-                    Where::column('idempresa', $idempresa),
-                    Where::column('codserie', $codserie),
-                    Where::column('codagente', $agente->codagente)
+                    Where::isNull('idliquidacion'),
+                    Where::eq('idempresa', $idempresa),
+                    Where::eq('codserie', $codserie),
+                    Where::eq('codagente', $agente->codagente)
                 ];
 
                 if (!empty($dateFrom)) {
-                    $where[] = Where::column('fecha', $dateFrom, '>=');
+                    $where[] = Where::eq('fecha', $dateFrom, '>=');
                 }
 
                 if (!empty($dateTo)) {
-                    $where[] = Where::column('fecha', $dateTo, '<=');
+                    $where[] = Where::eq('fecha', $dateTo, '<=');
                 }
 
                 $invoices = FacturaCliente::all($where);
