@@ -24,7 +24,7 @@ use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Dinamic\Model\Agente;
 
 /**
- * A penalization to commission for apply discount.
+ * Penalización aplicada a la comisión al aplicar un descuento.
  *
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  */
