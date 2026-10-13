@@ -49,6 +49,8 @@ final class Init extends InitClass
         SalesHeaderHTML::addMod(new Mod\SalesHeaderHTMLMod());
         SalesLineHTML::addMod(new Mod\SalesLineHTMLMod());
 
+        TransformerDocument::addUnlockedField('editcomision');
+        TransformerDocument::addUnlockedField('idliquidacion');
         TransformerDocument::addUnlockedField('totalcomision');
 
         if (class_exists('FacturaScripts\\Dinamic\\Controller\\Randomizer')) {
