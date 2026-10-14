@@ -1,0 +1,143 @@
+{#
+* This file is part of Comisiones plugin for FacturaScripts
+* Copyright (C) 2026 Carlos García Gómez <carlos@facturascripts.com>
+* @author Esteban Sánchez Martínez <Esteban@factura.city>
+#}
+
+{% extends "Master/MenuBgTemplate.html.twig" %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="d-flex flex-wrap align-items-center gap-3 mt-3 mb-3">
+            <h1 class="h3 mb-0 text-gray-800 me-2">
+                <i class="fa-solid fa-percent"></i>
+                {{ trans('commissions') }}
+            </h1>
+            {% if fsc.agentes %}
+                <form action="{{ fsc.url() }}" method="get" class="mb-0 ms-auto" style="min-width: 260px;">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-user-tie fa-fw"></i></span>
+                        <select name="codagente" class="form-select" onchange="this.form.submit();">
+                            {% if not fsc.codagente %}
+                                <option value="">{{ trans('select-agent') }}</option>
+                            {% endif %}
+                            {% for codagente, nombre in fsc.agentes %}
+                                <option value="{{ codagente }}"{% if codagente == fsc.codagente %} selected{% endif %}>
+                                    {{ nombre }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+
+        {% if fsc.sinAgente %}
+            <div class="alert alert-warning">
+                <i class="fa-solid fa-triangle-exclamation me-1"></i>
+                {% if fsc.agentes %}
+                    {{ trans('select-agent-to-view-commissions') }}
+                {% else %}
+                    {{ trans('user-without-linked-agent') }}
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="card shadow mb-4">
+                <div class="p-3 d-flex flex-wrap justify-content-between align-items-center">
+                    <h2 class="h4 mb-0">
+                        <i class="fa-solid fa-hourglass-half fa-fw"></i>
+                        {{ trans('pending-commissions') }}
+                    </h2>
+                    <span class="fs-5">
+                        {{ trans('total-pending') }}:
+                        <strong>{{ money(fsc.totalPendiente) }}</strong>
+                    </span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                        <tr>
+                            <th>{{ trans('date') }}</th>
+                            <th>{{ trans('code') }}</th>
+                            <th>{{ trans('customer') }}</th>
+                            <th class="text-end">{{ trans('total') }}</th>
+                            <th class="text-end">{{ trans('commission') }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for factura in fsc.facturas %}
+                            <tr class="clickableRow" data-href="{{ factura.url() }}">
+                                <td>{{ factura.fecha }}</td>
+                                <td><a href="{{ factura.url() }}">{{ factura.codigo }}</a></td>
+                                <td>{{ factura.nombrecliente }}</td>
+                                <td class="text-end">{{ money(factura.total) }}</td>
+                                <td class="text-end">{{ money(factura.totalcomision) }}</td>
+                            </tr>
+                        {% else %}
+                            <tr class="table-warning">
+                                <td colspan="5">{{ trans('no-data') }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <h2 class="h4 mb-3">
+                <i class="fa-solid fa-file-invoice-dollar fa-fw"></i>
+                {{ trans('last-settlements') }}
+            </h2>
+            {% for fila in fsc.liquidaciones %}
+                <div class="card shadow mb-4">
+                    <div class="p-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <span class="fs-5">
+                            <a href="{{ fila.liquidacion.url() }}">
+                                {{ trans('settlement') }} {{ fila.liquidacion.idliquidacion }}
+                            </a>
+                            · {{ fila.liquidacion.fecha }}
+                        </span>
+                        <span>
+                            {% if fila.factura %}
+                                {{ trans('invoice') }}:
+                                <a href="{{ fila.factura.url() }}">{{ fila.factura.codigo }}</a>
+                            {% else %}
+                                <span class="badge bg-warning">{{ trans('not-settled') }}</span>
+                            {% endif %}
+                            <strong class="ms-3">{{ trans('total') }}: {{ money(fila.liquidacion.total) }}</strong>
+                        </span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                            <tr>
+                                <th>{{ trans('date') }}</th>
+                                <th>{{ trans('code') }}</th>
+                                <th>{{ trans('customer') }}</th>
+                                <th class="text-end">{{ trans('total') }}</th>
+                                <th class="text-end">{{ trans('commission') }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for factura in fila.facturas %}
+                                <tr class="clickableRow" data-href="{{ factura.url() }}">
+                                    <td>{{ factura.fecha }}</td>
+                                    <td><a href="{{ factura.url() }}">{{ factura.codigo }}</a></td>
+                                    <td>{{ factura.nombrecliente }}</td>
+                                    <td class="text-end">{{ money(factura.total) }}</td>
+                                    <td class="text-end">{{ money(factura.totalcomision) }}</td>
+                                </tr>
+                            {% else %}
+                                <tr class="table-warning">
+                                    <td colspan="5">{{ trans('no-data') }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-warning">{{ trans('no-data') }}</div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}
