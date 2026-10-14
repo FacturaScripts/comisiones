@@ -28,7 +28,8 @@ use FacturaScripts\Dinamic\Model\LiquidacionComision;
 
 /**
  * Informe con las comisiones pendientes de liquidar y las últimas liquidaciones
- * del agente vinculado al usuario. Los administradores pueden elegir el agente.
+ * del agente vinculado al usuario. Si el usuario no tiene activado "Mostrar solamente
+ * registros del usuario" en su permiso de esta página, puede elegir el agente.
  *
  * @author Esteban Sánchez Martínez <Esteban@factura.city>
  */
@@ -37,7 +38,7 @@ class MisComisiones extends Controller
     /** @var int Número máximo de liquidaciones que se muestran. */
     const MAX_LIQUIDACIONES = 20;
 
-    /** @var array Lista de agentes seleccionables [codagente => nombre]. Solo para administradores. */
+    /** @var array Lista de agentes seleccionables [codagente => nombre]. Vacía si el usuario solo puede ver sus propios datos. */
     public $agentes = [];
 
     /** @var string Código del agente cuyas comisiones se muestran. */
@@ -49,7 +50,7 @@ class MisComisiones extends Controller
     /** @var array Últimas liquidaciones del agente, con su factura de proveedor generada si la hay y sus facturas de cliente. */
     public $liquidaciones = [];
 
-    /** @var bool Indica si no hay agente del que mostrar datos (usuario sin agente vinculado). */
+    /** @var bool Indica si no hay agente del que mostrar datos (usuario sin agente vinculado o sin agente elegido). */
     public $sinAgente = false;
 
     /** @var float Suma de las comisiones de las facturas pendientes de liquidar. */
@@ -139,16 +140,18 @@ class MisComisiones extends Controller
     }
 
     /**
-     * Devuelve el agente del que se muestran las comisiones. Un usuario normal
-     * solo ve el suyo; un administrador puede elegir otro con el parámetro codagente.
-     * Devuelve cadena vacía si no hay agente que mostrar.
+     * Devuelve el agente del que se muestran las comisiones. Si el permiso del usuario sobre
+     * esta página es de solo sus propios datos, ve únicamente su agente (ninguno si no tiene).
+     * En caso contrario puede elegir cualquier agente con el parámetro codagente, y por defecto
+     * se muestra el suyo si lo tiene. Devuelve cadena vacía si no hay agente que mostrar.
      *
      * @return string
      */
     protected function resolveAgent(): string
     {
-        if (empty($this->user->admin)) {
-            return (string)$this->user->codagente;
+        $propio = (string)$this->user->codagente;
+        if ($this->permissions->onlyOwnerData) {
+            return $propio;
         }
 
         foreach (Agentes::all() as $agente) {
@@ -160,8 +163,7 @@ class MisComisiones extends Controller
             return $solicitado;
         }
 
-        // por defecto, el agente vinculado al administrador si lo tiene
-        $propio = (string)$this->user->codagente;
+        // por defecto, el agente vinculado al usuario si lo tiene
         return isset($this->agentes[$propio]) ? $propio : '';
     }
 }

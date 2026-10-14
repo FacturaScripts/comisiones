@@ -13,7 +13,7 @@
                 <i class="fa-solid fa-percent"></i>
                 {{ trans('commissions') }}
             </h1>
-            {% if fsc.user.admin %}
+            {% if fsc.agentes %}
                 <form action="{{ fsc.url() }}" method="get" class="mb-0 ms-auto" style="min-width: 260px;">
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa-solid fa-user-tie fa-fw"></i></span>
@@ -35,7 +35,7 @@
         {% if fsc.sinAgente %}
             <div class="alert alert-warning">
                 <i class="fa-solid fa-triangle-exclamation me-1"></i>
-                {% if fsc.user.admin %}
+                {% if fsc.agentes %}
                     {{ trans('select-agent-to-view-commissions') }}
                 {% else %}
                     {{ trans('user-without-linked-agent') }}
