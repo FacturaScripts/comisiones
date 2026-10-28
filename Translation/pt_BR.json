@@ -5,17 +5,21 @@
     "from-dto": "De para descontos",
     "from-penalty-info": "Início da faixa de desconto a que se aplica a penalidade",
     "invoices-updated-correctly": "%count% faturas atualizadas corretamente",
-    "not-settled": "No liquidada",
+    "last-settlements": "Últimas liquidaciones",
+    "not-settled": "Não liquidada",
     "penalize": "Penalizar",
     "penalties": "Penalidades",
     "penalty": "Penalidade",
     "penalty-help-info": "Se ao realizar uma venda um agente faz um desconto, é possível penalizar a comissão que receberá pela venda. Mediante esta relação de porcentagens, <b>é subtraído<\/b> da comissão <b>a penalização<\/b> segundo o desde\/até onde se encontre o desconto aplicado pelo vendedor na venda.<br><br><b>Por exemplo:<\/b><br>Se temos um registro que estabelece um <i>De<\/i> 1 e um <i>Até<\/i> 20, se o agente faz um desconto ao cliente de 15%, então será retirado da comissão o valor que inserirmos em <i>Penalização<\/i>.",
     "penalty-help-title": "Penalização por fazer descontos",
     "penalty-penalty-info": "Percentagem a subtrair à comissão sobre a venda. (Introduzir um valor positivo)",
+    "pending-commissions": "Comisiones pendientes de liquidar",
+    "select-agent-to-view-commissions": "Selecciona un agente para ver sus comisiones.",
     "settled": "Liquidada",
     "show-into-footer": "Mostrar no rodapé do documento",
     "show-into-modal": "Mostrar na janela auxiliar",
     "total-position": "Posição do total",
     "until-dto": "Até desconto",
-    "until-penalty-info": "Fim do intervalo do desconto para aplicar a penalidade. '100' indica o máximo do intervalo"
+    "until-penalty-info": "Fim do intervalo do desconto para aplicar a penalidade. '100' indica o máximo do intervalo",
+    "user-without-linked-agent": "Tu usuario no tiene ningún agente vinculado, por lo que no hay comisiones que mostrar. Contacta con un administrador para que te vincule a un agente."
 }

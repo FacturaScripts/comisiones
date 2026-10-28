@@ -5,6 +5,7 @@
     "from-dto": "P",
     "from-penalty-info": "Inici del rang del descompte al qual s'aplica la penalització",
     "invoices-updated-correctly": "%count% factures actualitzades correctament",
+    "last-settlements": "Últimas liquidaciones",
     "not-settled": "No liquidada",
     "penalize": "Penalitzar",
     "penalties": "Penalitzacions",
@@ -12,10 +13,13 @@
     "penalty-help-info": "Si al realitzar una venda un agent fa un descompte és possible penalitzar la comissió que rebrà per la venda. Mitjançant aquesta relació de percentatges, <b>se resta<\/b> de la comissió <b>la penalització<\/b> segons el des de\/fins on es trobi el descompte aplicat pel comercial en la venda.<br><br><b>Per exemple:<\/b><br>Si tenim un registre que estableix un <i>Des de<\/i> 1 i un <i>Fins<\/i> 20, si l'agent fa un descompte al client d'un 15% se li restarà de la comissió el valor que introduïm en <i>Penalització<\/i>",
     "penalty-help-title": "Penalització per fer descomptes",
     "penalty-penalty-info": "Porcentatge que es resta al percentatge de comissió sobre la venda. (Introduïr un valor positiu)",
+    "pending-commissions": "Comisiones pendientes de liquidar",
+    "select-agent-to-view-commissions": "Selecciona un agente para ver sus comisiones.",
     "settled": "Liquidada",
     "show-into-footer": "Mostrar al peu del document",
     "show-into-modal": "Mostrar en finestra auxiliar",
     "total-position": "Posició del total",
     "until-dto": "Fins descompte",
-    "until-penalty-info": "Fi de l'abast del descompte al qual s'aplica la penalització. '100' indica el màxim de l'abast"
+    "until-penalty-info": "Fi de l'abast del descompte al qual s'aplica la penalització. '100' indica el màxim de l'abast",
+    "user-without-linked-agent": "Tu usuario no tiene ningún agente vinculado, por lo que no hay comisiones que mostrar. Contacta con un administrador para que te vincule a un agente."
 }
