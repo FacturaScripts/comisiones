@@ -27,7 +27,7 @@ use FacturaScripts\Dinamic\Model\Cliente as DinCliente;
 use FacturaScripts\Dinamic\Model\Producto as DinProducto;
 
 /**
- * List of a sellers commissions.
+ * Lista de comisiónes de un vendedor.
  *
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  */
