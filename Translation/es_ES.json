@@ -5,6 +5,7 @@
     "from-dto": "Para descuentos desde",
     "from-penalty-info": "Inicio del rango del descuento al que se aplica la penalización",
     "invoices-updated-correctly": "%count% facturas actualizadas correctamente",
+    "last-settlements": "Últimas liquidaciones",
     "not-settled": "No liquidada",
     "penalize": "Penalizar",
     "penalties": "Penalizaciones",
@@ -12,10 +13,15 @@
     "penalty-help-info": "Si al realizar una venta un agente hace un descuento es posible penalizar la comisión que recibirá por la venta. Mediante esta relación de porcentajes, <b>se resta<\/b> de la comisión <b>la penalización<\/b> según el desde\/hasta donde se encuentre el descuento aplicado por el comercial en la venta.<br><br><b>Por ejemplo:<\/b><br>Si tenemos un registro que establece un <i>Desde<\/i> 1 y un <i>Hasta<\/i> 20, si el agente hace un descuento al cliente de un 15% pues se le restará de la comisión el valor que introduzcamos en <i>Penalización<\/i>",
     "penalty-help-title": "Penalización por hacer descuentos",
     "penalty-penalty-info": "Porcentaje que se resta al porcentaje de comisión sobre la venta. (Introducir un valor positivo)",
+    "pending-commissions": "Comisiones pendientes de liquidar",
+    "select-agent": "Seleccionar agente",
+    "select-agent-to-view-commissions": "Selecciona un agente para ver sus comisiones.",
     "settled": "Liquidada",
     "show-into-footer": "Mostrar en pie de documento",
     "show-into-modal": "Mostrar en ventana auxiliar",
+    "total-pending": "Total pendiente de cobrar",
     "total-position": "Posición del Total",
     "until-dto": "Hasta descuento",
-    "until-penalty-info": "Fin del rango del descuento al que se aplica la penalización. '100' indica máximo del rango"
+    "until-penalty-info": "Fin del rango del descuento al que se aplica la penalización. '100' indica máximo del rango",
+    "user-without-linked-agent": "Tu usuario no tiene ningún agente vinculado, por lo que no hay comisiones que mostrar. Contacta con un administrador para que te vincule a un agente."
 }
